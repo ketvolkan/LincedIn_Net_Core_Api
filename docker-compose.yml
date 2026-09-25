@@ -1,0 +1,56 @@
+version: '3.8'
+
+services:
+  # PostgreSQL Database Container
+  db:
+    image: postgres:16-alpine
+    container_name: linkedin_game_db
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB:-linkedin_boss_battle_db}
+      POSTGRES_USER: ${POSTGRES_USER:-postgres}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+    ports:
+      - "${POSTGRES_EXTERNAL_PORT:-39472}:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-postgres} -d ${POSTGRES_DB:-linkedin_boss_battle_db}"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+    networks:
+      - lincedin_network
+
+  # .NET 8 WebAPI & SignalR GameHub & React Frontend Container
+  backend:
+    build:
+      context: .
+      dockerfile: WebAPI/Dockerfile
+    container_name: linkedin_game_api
+    restart: unless-stopped
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Production
+      - ASPNETCORE_URLS=http://+:8080
+      - ConnectionStrings__PostgreSQL=Host=db;Port=5432;Database=${POSTGRES_DB:-linkedin_boss_battle_db};Username=${POSTGRES_USER:-postgres};Password=${POSTGRES_PASSWORD};Client Encoding=UTF8;
+      - AppUrl=${APP_URL:-https://lincedin.ketware.com}
+      - AllowedOrigins=${ALLOWED_ORIGINS:-https://lincedin.ketware.com,http://localhost:39470,http://localhost:5173}
+      - ADMIN_USERNAME=${ADMIN_USERNAME:-ketware}
+      - ADMIN_PASSWORD=${ADMIN_PASSWORD}
+      - ADMIN_JWT_SECRET=${ADMIN_JWT_SECRET}
+      - TURNSTILE_SECRET_KEY=${TURNSTILE_SECRET_KEY}
+    ports:
+      - "${APP_PORT:-39470}:8080"
+    networks:
+      - lincedin_network
+
+volumes:
+  postgres_data:
+    driver: local
+
+networks:
+  lincedin_network:
+    driver: bridge

@@ -1,0 +1,47 @@
+# Secrets & Environment Variables (DO NOT COMMIT TO GIT)
+.env
+.env.local
+.env.*.local
+*.secret
+*.key
+*.pem
+*.pfx
+
+# .NET Build Outputs
+bin/
+obj/
+publish/
+[Bb]in/
+[Oo]bj/
+*.user
+*.userosscache
+*.sln.docstates
+.vs/
+.vscode/
+.idea/
+
+# Node.js & Frontend Builds
+node_modules/
+frontend/node_modules/
+frontend/dist/
+dist/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.pnpm-debug.log*
+
+# Docker & Database local data
+postgres_data/
+*.db
+*.sqlite
+*.sqlite3
+
+# Logs
+*.log
+logs/
+.system_generated/
+
+# OS specific
+.DS_Store
+Thumbs.db
+desktop.ini
