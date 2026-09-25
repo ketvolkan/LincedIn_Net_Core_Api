@@ -44,11 +44,11 @@ cp .env.example .env
 ```ini
 POSTGRES_DB=linkedin_boss_battle_db
 POSTGRES_USER=postgres
-POSTGRES_EXTERNAL_PORT=39472
+POSTGRES_EXTERNAL_PORT=5432
 
 APP_PORT=39470
 APP_URL=https://lincedin.ketware.com
-ALLOWED_ORIGINS=https://lincedin.ketware.com,http://localhost:39470,http://localhost:5173
+ALLOWED_ORIGINS=https://lincedin.ketware.com,http://localhost:34222,http://localhost:5433
 ```
 
 ### 2. Docker Konteynerlerini Başlatma
@@ -72,7 +72,7 @@ Bu komut:
 cd WebAPI
 dotnet run
 ```
-Swagger UI: `http://localhost:39470/swagger`
+Swagger UI: `http://localhost:34343/swagger`
 
 ### 2. Frontend'i Başlatma
 ```bash
@@ -80,7 +80,7 @@ cd frontend
 npm install
 npm run dev
 ```
-Oyun Arayüzü: `http://localhost:5173`
+Oyun Arayüzü: `http://localhost:4222`
 
 ---
 
