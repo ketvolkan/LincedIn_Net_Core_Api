@@ -65,25 +65,6 @@ Bu komut:
 
 ---
 
-## 🌐 Nginx Reverse Proxy (SSL & WebSockets)
-Sunucunuzda `https://lincedin.ketware.com` alan adını Docker konteynerine bağlamak için repodaki `nginx.conf.example` dosyasını kullanabilirsiniz:
-
-```bash
-# Nginx yapılandırma dosyasını kopyalayın
-sudo cp nginx.conf.example /etc/nginx/sites-available/lincedin.ketware.com
-sudo ln -s /etc/nginx/sites-available/lincedin.ketware.com /etc/nginx/sites-enabled/
-
-# SSL sertifikasını Certbot ile tek tıkla kurun:
-sudo certbot --nginx -d lincedin.ketware.com
-
-# Nginx'i yeniden başlatın
-sudo systemctl reload nginx
-```
-
-> **Önemli Not:** SignalR bağlantısının (`/gamehub`) kesintisiz çalışması için Nginx dosyasında `proxy_set_header Upgrade $http_upgrade;` ve `proxy_set_header Connection "upgrade";` ayarları önceden tanımlanmıştır.
-
----
-
 ## 💻 Yerel Geliştirme (Local Development)
 
 ### 1. Backend'i Başlatma
